@@ -53,9 +53,9 @@ jobs:
       - name: Installer Surge
         run: npm install --global surge
 
-            - name: Deployer sur Surge
+      - name: Deployer sur Surge
         env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
           SURGE_DOMAIN: ${{ secrets.SURGE_DOMAIN }}
-        run: |
-          surge ./dist "$(echo -n "$SURGE_DOMAIN" | tr -d '[:space:]')" --token "$(echo -n "$SURGE_TOKEN" | tr -d '[:space:]')"
+        run: surge ./dist "$SURGE_DOMAIN"
