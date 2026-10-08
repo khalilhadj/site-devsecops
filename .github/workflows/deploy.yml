@@ -56,6 +56,8 @@ jobs:
       - name: Deployer sur Surge
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+          SURGE_TOKEN_RAW: ${{ secrets.SURGE_TOKEN }}
           SURGE_DOMAIN: ${{ secrets.SURGE_DOMAIN }}
-        run: surge ./dist "$SURGE_DOMAIN"
+        run: |
+          export SURGE_TOKEN="$(echo -n "$SURGE_TOKEN_RAW" | sed 's/\x1b\[[0-9;]*m//g' | tr -d '[:space:]')"
+          surge ./dist "$SURGE_DOMAIN"
